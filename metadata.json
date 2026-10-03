@@ -1,0 +1,6 @@
+{
+  "name": "WALLVY - Make Your Screen Yours",
+  "description": "The ultimate personalization PWA for HD/4K Wallpapers, AI Wallpapers, Ringtones, Themes, Edge Lighting effects, AOD Clocks, and Audio Visualizer.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

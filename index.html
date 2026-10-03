@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>WALLVY - Make Your Screen Yours</title>
+    <meta name="description" content="The ultimate personalization PWA for HD/4K Wallpapers, AI Wallpapers, Ringtones, Themes, Edge Lighting effects, AOD Clocks, and Audio Visualizer." />
+    <meta name="theme-color" content="#060714" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="WALLVY" />
+    
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <meta property="og:title" content="WALLVY - Make Your Screen Yours" />
+    <meta property="og:description" content="Personalize your device with 4K wallpapers, AI studio, edge lighting, AOD clocks, and custom ringtones." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="/pwa-512x512.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="WALLVY - Make Your Screen Yours" />
+    <meta name="twitter:description" content="Personalize your device with 4K wallpapers, AI studio, edge lighting, AOD clocks, and custom ringtones." />
+    <meta name="twitter:image" content="/pwa-512x512.png" />
+  </head>
+  <body class="bg-[#060714] text-slate-100 antialiased selection:bg-cyan-500/30 selection:text-cyan-200">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch((err) => {
+            console.log('SW registration error:', err);
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

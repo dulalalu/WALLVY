@@ -1,0 +1,192 @@
+const fs = require('fs');
+const sharp = require('sharp');
+
+const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <defs>
+    <!-- Frame Gradients -->
+    <linearGradient id="neonBorder" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00F0FF" />
+      <stop offset="25%" stop-color="#0088FF" />
+      <stop offset="55%" stop-color="#7000FF" />
+      <stop offset="85%" stop-color="#E000B0" />
+      <stop offset="100%" stop-color="#FF1080" />
+    </linearGradient>
+
+    <radialGradient id="innerGlow" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#181a5a" stop-opacity="0.95" />
+      <stop offset="50%" stop-color="#0c092c" stop-opacity="0.98" />
+      <stop offset="100%" stop-color="#050316" stop-opacity="1" />
+    </radialGradient>
+
+    <!-- W Ribbon Gradients -->
+    <linearGradient id="wLeftWing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#80FFFF" />
+      <stop offset="30%" stop-color="#00D2FF" />
+      <stop offset="75%" stop-color="#0055FF" />
+      <stop offset="100%" stop-color="#0022AA" />
+    </linearGradient>
+
+    <linearGradient id="wCenterLoop" x1="15%" y1="15%" x2="85%" y2="85%">
+      <stop offset="0%" stop-color="#00C8FF" />
+      <stop offset="35%" stop-color="#2D55FF" />
+      <stop offset="65%" stop-color="#8400FF" />
+      <stop offset="100%" stop-color="#E000AA" />
+    </linearGradient>
+
+    <linearGradient id="wRightWing" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4B0099" />
+      <stop offset="30%" stop-color="#9900EE" />
+      <stop offset="70%" stop-color="#E90099" />
+      <stop offset="100%" stop-color="#FFAADD" />
+    </linearGradient>
+
+    <!-- Text Gradient -->
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4DEEFF" />
+      <stop offset="25%" stop-color="#00C4FF" />
+      <stop offset="50%" stop-color="#7B5CFF" />
+      <stop offset="75%" stop-color="#D128FF" />
+      <stop offset="100%" stop-color="#FF389E" />
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="outerGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="22" result="blur1" />
+      <feMerge>
+        <feMergeNode in="blur1" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <filter id="ribbonGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Ambient Outer Glow -->
+  <rect x="96" y="96" width="832" height="832" rx="220" ry="220" 
+        fill="none" stroke="url(#neonBorder)" stroke-width="32" opacity="0.65" filter="url(#outerGlow)" />
+
+  <!-- Base Rounded Frame Body -->
+  <rect x="106" y="106" width="812" height="812" rx="210" ry="210" 
+        fill="url(#innerGlow)" stroke="url(#neonBorder)" stroke-width="20" />
+
+  <!-- Inner Glass Highlight Sheen -->
+  <path d="M 230,126 Q 512,118 794,126 C 860,126 890,165 898,220 C 860,330 650,420 512,420 C 374,420 164,330 126,220 C 134,165 164,126 230,126 Z" 
+        fill="#ffffff" opacity="0.1" />
+
+  <!-- 3D Ribbon "W" Symbol -->
+  <g id="ribbon-w" filter="url(#ribbonGlow)">
+    <!-- Shadow Depth Underneath -->
+    <path d="M 230,285 C 330,295 380,480 512,610 C 644,480 694,295 794,285 C 840,280 850,330 830,380 C 785,490 695,640 575,640 C 535,640 489,640 449,640 C 329,640 239,490 194,380 C 174,330 184,280 230,285 Z"
+          fill="#02010c" opacity="0.8" />
+
+    <!-- Center Arch Ribbon Flow -->
+    <path d="M 335,530 C 400,380 440,295 512,295 C 584,295 624,380 689,530 C 640,615 570,625 512,450 C 454,625 384,615 335,530 Z" 
+          fill="url(#wCenterLoop)" />
+
+    <!-- Left Wing (Cyan into Blue) -->
+    <path d="M 205,305 C 275,340 330,480 405,585 C 365,615 320,605 285,535 C 235,435 190,360 205,305 Z" 
+          fill="url(#wLeftWing)" />
+
+    <!-- Right Wing (Purple into Magenta/Pink) -->
+    <path d="M 819,305 C 749,340 694,480 619,585 C 659,615 704,605 739,535 C 789,435 834,360 819,305 Z" 
+          fill="url(#wRightWing)" />
+
+    <!-- Main Front 3D Ribbon Fold (Seamless Continuous Flow) -->
+    <path d="M 215,310 C 295,350 365,510 512,320 C 659,510 729,350 809,310 C 845,345 830,420 735,565 C 640,710 575,560 512,475 C 449,560 384,710 289,565 C 194,420 179,345 215,310 Z"
+          fill="url(#wCenterLoop)" opacity="0.95" />
+
+    <!-- Specular Highlight Top Curves -->
+    <path d="M 225,320 C 270,350 320,440 365,510" 
+          stroke="#C2FFFF" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 799,320 C 754,350 704,440 659,510" 
+          stroke="#FFBFEA" stroke-width="12" stroke-linecap="round" fill="none" opacity="0.85" />
+    <path d="M 460,335 C 490,305 534,305 564,335" 
+          stroke="#E8DEFF" stroke-width="14" stroke-linecap="round" fill="none" opacity="0.9" />
+  </g>
+
+  <!-- "WALLVY" 3D Glowing Typography -->
+  <g id="brand-text">
+    <text x="512" y="760" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Montserrat', 'Inter', 'Segoe UI', sans-serif" 
+          font-weight="900" 
+          font-size="126" 
+          letter-spacing="9" 
+          fill="url(#textGrad)"
+          stroke="#050314"
+          stroke-width="16"
+          paint-order="stroke fill"
+          filter="url(#ribbonGlow)">WALLVY</text>
+    
+    <text x="512" y="760" 
+          text-anchor="middle" 
+          font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Montserrat', 'Inter', 'Segoe UI', sans-serif" 
+          font-weight="900" 
+          font-size="126" 
+          letter-spacing="9" 
+          fill="url(#textGrad)">WALLVY</text>
+  </g>
+</svg>`;
+
+async function run() {
+  fs.writeFileSync('public/icon.svg', svgContent);
+  console.log('Saved public/icon.svg');
+
+  const svgBuffer = Buffer.from(svgContent);
+
+  // 1024x1024 transparent PNG logo
+  await sharp(svgBuffer)
+    .resize(1024, 1024)
+    .png()
+    .toFile('public/logo.png');
+
+  // 512x512 PWA Icon
+  await sharp(svgBuffer)
+    .resize(512, 512)
+    .png()
+    .toFile('public/pwa-512x512.png');
+
+  // 512x512 Maskable Icon (safe zone padded)
+  await sharp(svgBuffer)
+    .resize(410, 410)
+    .extend({
+      top: 51,
+      bottom: 51,
+      left: 51,
+      right: 51,
+      background: { r: 5, g: 3, b: 22, alpha: 1 }
+    })
+    .png()
+    .toFile('public/pwa-maskable-512x512.png');
+
+  // 192x192 PWA Icon
+  await sharp(svgBuffer)
+    .resize(192, 192)
+    .png()
+    .toFile('public/pwa-192x192.png');
+
+  // 180x180 Apple Touch Icon
+  await sharp(svgBuffer)
+    .resize(180, 180)
+    .png()
+    .toFile('public/apple-touch-icon.png');
+
+  // 32x32 Favicon PNG
+  await sharp(svgBuffer)
+    .resize(32, 32)
+    .png()
+    .toFile('public/favicon.png');
+
+  console.log('All icons generated successfully with sharp!');
+}
+
+run().catch(err => {
+  console.error(err);
+  process.exit(1);
+});

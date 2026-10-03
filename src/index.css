@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-main: #060714;
+    --bg-card: #0c0e22;
+    --bg-card-hover: #141736;
+    --border-color: rgba(255, 255, 255, 0.08);
+    --primary: #00F0FF;
+    --primary-glow: rgba(0, 240, 255, 0.4);
+    --secondary: #9B00FF;
+    --secondary-glow: rgba(155, 0, 255, 0.4);
+    --accent: #FF007A;
+    --accent-glow: rgba(255, 0, 122, 0.4);
+  }
+
+  body {
+    background-color: var(--bg-main);
+    color: #f1f5f9;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-tap-highlight-color: transparent;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #080a1c;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e2246;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #2e3570;
+}
+
+/* Glassmorphism helpers */
+.glass-panel {
+  background: rgba(13, 16, 38, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-dropdown {
+  background: rgba(10, 12, 28, 0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glow-border-cyan {
+  box-shadow: 0 0 25px -4px rgba(0, 240, 255, 0.4);
+}
+
+.glow-border-pink {
+  box-shadow: 0 0 25px -4px rgba(255, 0, 122, 0.4);
+}
+
+.glow-border-purple {
+  box-shadow: 0 0 25px -4px rgba(155, 0, 255, 0.4);
+}
+
+.text-gradient-wallvy {
+  background: linear-gradient(135deg, #00F0FF 0%, #7000FF 50%, #FF007A 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Pulse Glow Keyframes */
+@keyframes neonPulse {
+  0%, 100% {
+    opacity: 0.85;
+    filter: drop-shadow(0 0 8px currentColor);
+  }
+  50% {
+    opacity: 1;
+    filter: drop-shadow(0 0 20px currentColor);
+  }
+}
+
+@keyframes edgeGradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.animate-edge-flow {
+  background-size: 200% 200%;
+  animation: edgeGradientFlow 4s ease infinite;
+}
+
+/* Hide scrollbar for category scroller */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

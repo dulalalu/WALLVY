@@ -1,0 +1,33 @@
+{
+  "id": "/",
+  "name": "WALLVY - Make Your Screen Yours",
+  "short_name": "WALLVY",
+  "description": "HD/4K Wallpapers, AI Wallpapers, Ringtones, Edge Lighting, AOD Clocks & Visualizer.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#060714",
+  "theme_color": "#060714",
+  "categories": ["personalization", "entertainment", "lifestyle"],
+  "icons": [
+    {
+      "src": "/pwa-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/pwa-maskable-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
